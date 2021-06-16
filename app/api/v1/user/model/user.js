@@ -11,8 +11,17 @@ const userSchema = Mongoose.Schema({
         default: ''
     },
     email : {
-        type : String,
-        default : ''
+        type: String,
+        lowercase: true,
+       // required: [true, Constants.messages.fieldMiss + 'email'],
+       // unique: [true, Constants.messages.email],
+        trim: true,
+        // validate: {
+        //     validator: (email) => {
+        //         return Validotors.IsValidEmail(email);
+        //     },
+        //     message: props => `${props.value} is not a valid email!`
+        // } 
     },
     password : {
         type : String
@@ -95,5 +104,6 @@ const userSchema = Mongoose.Schema({
     hash: String,
     salt: String
 })
+
 
 module.exports = Mongoose.model('users', userSchema);

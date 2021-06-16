@@ -3,6 +3,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const path = require('path');
+const cors = require('cors');
 
 let app = express();
 
@@ -19,6 +20,8 @@ const v1Routes = require('./app/api/v1/routes');
 
 // constant Files
 const errorTypes = require('./app/lib/errorTypes');
+
+app.use(cors());
 
 // All api requests
 app.use(function (req, res, next) {
@@ -64,7 +67,7 @@ app.use((req, res, next) => {
     }
   }
   res.customError = (type, errMessgae) => {
-    if (type === errorTypes.errorTypes.INPUT || type === errorTypes.errorTypes.EMAIL) {
+    if (type === errorTypes.errorTypes.INPUT || type === errorTypes.errorTypes.EMAIL || type === errorTypes.errorTypes.NOTFOUND || type === errorTypes.errorTypes.PASSWORD) {
       return res.status(400).customResponse({flowStatus: 'FAILURE', flowStatusMessage:errMessgae, result : {}}, false);
     }
   }

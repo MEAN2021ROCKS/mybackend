@@ -1,6 +1,11 @@
 const errorTypes = {
     INPUT : 'Input',
-    EMAIL: 'Email'
+    EMAIL: 'Email',
+    QUERY: 'Query',
+    PARSE: 'PARSE',
+    NOTFOUND: 'NOTFOUND',
+    DOWNSTREAM: 'DOWNSTREAM',
+    PASSWORD: 'PASSWORD'
 }
 
 
