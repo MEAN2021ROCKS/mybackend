@@ -62,12 +62,12 @@ const loginUser = async (req, res) => {
     if (user && token && status === 'SUCCESS') {
       finalObj.flowStatus = constObj.statusMessage.SUCCESS
       finalObj.flowStatusMessage = 'Login Successfull';
-      finalObj.id = user._id;
-      finalObj.firstName = user.firstName;
-      finalObj.lastName = user.lastName;
-      finalObj.user = user.user;
-      finalObj.token = token;
-      console.log("MY Obj",finalObj);
+      finalObj.result = {};
+      finalObj.result.id = user._id;
+      finalObj.result.firstName = user.firstName;
+      finalObj.result.lastName = user.lastName;
+      finalObj.result.user = user.user;
+      finalObj.result.token = token;
       return res.customResponse(finalObj, false);
     } else {
       finalObj.flowStatus = constObj.statusMessage.FAILURE;

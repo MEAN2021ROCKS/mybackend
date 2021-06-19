@@ -41,6 +41,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 // set the view engine to ejs
 app.set('view engine', 'ejs');
+app.use((req, res, next) => {
+  console.log(req.originalUrl);
+  const allowed = req.originalUrl;
+  if (allowed === '/api/v1/user/login' || allowed === '/api/v1/user/signup') {
+     next();
+  }
+  else {
+    if (req.headers.authorization === 'obul') {
+      next();
+    } else {
+      return res.status(401).json({ 'flowStatus': 'UnAuthorized' });
+    }
+  }  
+});
 
 app.use((req, res, next) => {
   res.customResponse = (data, returnToPromise = fasle) => {
