@@ -20,6 +20,8 @@ const v1Routes = require('./app/api/v1/routes');
 
 // constant Files
 const errorTypes = require('./app/lib/errorTypes');
+const coomonQuery = require('./app/lib/commonQuerries');
+const { verify } = require('./app/lib/verifyUser');
 
 app.use(cors());
 
@@ -37,21 +39,30 @@ app.use(function (req, res, next) {
         next();
     }
 });
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 // set the view engine to ejs
 app.set('view engine', 'ejs');
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
   console.log(req.originalUrl);
   const allowed = req.originalUrl;
-  if (allowed === '/api/v1/user/login' || allowed === '/api/v1/user/signup') {
+  if (allowed === '/api/v1/admin/user/login' || allowed === '/api/v1/admin/user/signup') {
      next();
   }
   else {
-    if (req.headers.authorization === 'obul') {
-      next();
-    } else {
-      return res.status(401).json({ 'flowStatus': 'UnAuthorized' });
+    console.log(req.headers.authorization);
+    const token = req.headers.authorization.split(' ');
+    const verified = await coomonQuery.verifyToken(token[1]);
+    console.log('im verifying');
+    if (verified.status) {
+      req.user = verified.user;
+      const roleVerify = await verify(req, res);
+      if (!roleVerify) {
+        return res.status(401).json({ 'flowStatus': 'UnAuthorized' });
+      }
+      next();        
+    } else {      
+      return res.status(401).json({ 'flowStatus': 'UnAuthorized' });        
     }
   }  
 });
@@ -66,9 +77,9 @@ app.use((req, res, next) => {
           if (data.flowStatus === 'SUCCESS') {
             return res.json(data);
           } else if (data.flowStatus === 'FAILURE' && res.statusCode === 200) {
-            return res.status(500).json(data)
+            return res.send(data)
           } else {
-            return res.json(data);
+            return res.send(data);
           }
         } else {
           return;
@@ -82,7 +93,7 @@ app.use((req, res, next) => {
   }
   res.customError = (type, errMessgae) => {
     if (type === errorTypes.errorTypes.INPUT || type === errorTypes.errorTypes.EMAIL || type === errorTypes.errorTypes.NOTFOUND || type === errorTypes.errorTypes.PASSWORD) {
-      return res.status(400).customResponse({flowStatus: 'FAILURE', flowStatusMessage:errMessgae, result : {}}, false);
+      return res.status(200).customResponse({flowStatus: 'FAILURE', flowStatusMessage:errMessgae, result : {}}, false);
     }
   }
   next();

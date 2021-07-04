@@ -32,7 +32,7 @@ const userSchema = Mongoose.Schema({
     },
     user : {
         type: String,
-        default: 'admin'
+        default: 'user'
     },
     gender : {
         type : String,
@@ -104,6 +104,5 @@ const userSchema = Mongoose.Schema({
     hash: String,
     salt: String
 })
-
 
 module.exports = Mongoose.model('users', userSchema);

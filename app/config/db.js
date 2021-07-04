@@ -1,7 +1,8 @@
 'use strict';
 let mongoose = require('mongoose');
 
-__rootRequire('app/api/v1/user/model/user');
+__rootRequire('app/api/v1/admin/user/model/user');
+__rootRequire('app/api/v1/admin/categories/model/categories');
 
 const config = require('./config').get(process.env.NODE_ENV);
 mongoose.Promise = global.Promise;

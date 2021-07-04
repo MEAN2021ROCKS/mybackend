@@ -1,11 +1,11 @@
 const mongoose = require('mongoose');
 const User = require('../model/user');
-const types = require('../../../../lib/errorTypes');
-const Validators = require('../../../../lib/validators');
-const queries = require('../../../../lib/commonQuerries');
+const types = require('../../../../../lib/errorTypes');
+const Validators = require('../../../../../lib/validators');
+const queries = require('../../../../../lib/commonQuerries');
 const requiredPayLoad = ['firstName', 'lastName', 'email', 'password'];
-const mailer = require('../../../../lib/mailer');
-const constantObj = require('../../../../lib/constant');
+const mailer = require('../../../../../lib/mailer');
+const constantObj = require('../../../../../lib/constant');
 
 const registerUser = async (req, res) => {
   console.log(req.body);
@@ -23,8 +23,8 @@ const registerUser = async (req, res) => {
     return res.customError(types.errorTypes.EMAIL, 'Please Pass Valid Password!');
   };
   try {
-    //mailer.SendMail('obulesuf0008@gmail.com','Passing mail', '<b>Send Mail</b>',constantObj.gmailSMTPCredentials.username)
-    //return
+    mailer.SendMail('obulesuf0008@gmail.com','Passing mail', '<b>Send Mail</b>',constantObj.gmailSMTPCredentials.username)
+    
     try {
       const email = await queries.emailExist(User, req.body.email);
       if (email && email.data && email.data.email === req.body.email) {

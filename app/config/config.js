@@ -2,7 +2,7 @@ const config = {
     local: {
         port: 10010,
         db: {
-            url: 'mongodb://localhost:27017/Gadgets',
+            url: 'mongodb+srv://MEAN_MY_TV:6PorFFRMCciNwKh4@cluster0.e43qr.mongodb.net/MyTV?retryWrites=true&w=majority',
         },
         baseUrl: 'http://localhost:4200/',
         backendBaseUrl: 'http://localhost:10010/',

@@ -120,6 +120,28 @@ const generateToken = async (data = {}) => {
   })
 }
 
+const verifyToken = async (token = '') => {
+  return new Promise((resolve, reject) => {
+    try {
+      let tempObject = {
+        status: false
+      }
+      if (token.length === 0) {
+        tempObject.error = 'Please Pass Token';
+        return reject(tempObject);
+      }
+      const verifeid = jwt.verify(token, constantObj.Private_Secret);
+      console.log("token verify ",verifeid);      
+      tempObject.status = true
+      tempObject.token = token;
+      tempObject.user = verifeid;
+      return resolve(tempObject);
+    } catch (error) {
+      return resolve(error);
+    }
+  })
+}
+
 module.exports = {
   saltPassword,
   confirmPassword,
@@ -127,5 +149,6 @@ module.exports = {
   insertIntoCollection,
   emailExist,
   generateToken,
-  findOne
+  findOne,
+  verifyToken
 };

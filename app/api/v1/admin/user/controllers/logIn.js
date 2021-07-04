@@ -1,8 +1,8 @@
 const User = require('../model/user');
-const constObj = require('../../../../lib/constant');
-const types = require('../../../../lib/errorTypes');
-const Validators = require('../../../../lib/validators');
-const queries = require('../../../../lib/commonQuerries');
+const constObj = require('../../../../../lib/constant');
+const types = require('../../../../../lib/errorTypes');
+const Validators = require('../../../../../lib/validators');
+const queries = require('../../../../../lib/commonQuerries');
 const { use } = require('../routes/user');
 const requiredPayLoad = ['email', 'password'];
 
